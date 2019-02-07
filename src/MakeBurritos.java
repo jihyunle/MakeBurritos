@@ -3,16 +3,17 @@ import java.util.Random;
 
 public class MakeBurritos {
 
-    public static final int ingredientsPerBurrito = 5;
+    public static final int ingredientsPerBurrito = 7;  // Change this value to adjust ingredients per burrito
     public static final int numberOfBurrito = 25;
-    public static final int numberOfIngredients = 9;
+    public static final int maxNumberOfIngredients = 9;
 
     public static void main(String[]args){
 
         for (int i=0; i<numberOfBurrito; i++){       // 25 burritos
             String ingredients = "";            // Reset String ingredients
+            Random rnd = new Random();
             ArrayList<Integer> randomPicks = new ArrayList<>();
-            randomPicks = chooseRandomNoDuplicate(numberOfIngredients);
+            randomPicks = chooseRandomNoDuplicate(maxNumberOfIngredients, rnd);
 
 
             for (int j=0; j<ingredientsPerBurrito; j++){    // 5 ingredients
@@ -29,10 +30,21 @@ public class MakeBurritos {
             System.out.println("Burrito #" + (i+1) + ": " + ingredients);
 
         }
+        calculatePrice();
     }
 
-    public static ArrayList<Integer> chooseRandomNoDuplicate(int limit){
-        Random rnd = new Random();
+    /*Display a price for each burrito. Pricing will be $3.00 plus .50 for each ingredient.*/
+    public static void calculatePrice(){
+        double basePrice = 3.00;
+        double pricePerIngredient = 0.50;
+        double pricePerBurrito = basePrice + pricePerIngredient * ingredientsPerBurrito;
+        double totalOrderPrice = pricePerBurrito * numberOfBurrito;
+        System.out.println();
+        System.out.printf("The price per burrito is $ %.2f%n", pricePerBurrito);
+        System.out.printf("The total price for your entire order is $ %.2f%n", totalOrderPrice);
+    }
+
+    public static ArrayList<Integer> chooseRandomNoDuplicate(int limit, Random rnd){
         ArrayList<Integer> randomPicks = new ArrayList<>();
 
         while (randomPicks.size()<ingredientsPerBurrito){
